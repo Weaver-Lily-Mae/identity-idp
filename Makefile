@@ -25,8 +25,6 @@ lint:
 	bundle exec rubocop
 	@echo "--- slim-lint ---"
 	bundle exec slim-lint app/views
-	@echo "--- fasterer ---"
-	bundle exec fasterer
 	@echo "--- eslint ---"
 	yarn run lint
 
