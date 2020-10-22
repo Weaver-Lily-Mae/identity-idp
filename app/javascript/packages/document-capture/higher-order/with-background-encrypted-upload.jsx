@@ -1,8 +1,31 @@
 import React, { useContext } from 'react';
 import UploadContext from '../context/upload';
 
+/**
+ * Encrypt data.
+ *
+ * @param {CryptoKey} key Encryption key.
+ * @param {BufferSource} iv Initialization vector.
+ * @param {string|Blob} value Value to encrypt.
+ *
+ * @return {Promise<ArrayBuffer>} Encrypted data.
+ */
+async function encrypt(key, iv, value) {
+  const data =
+    typeof value === 'string' ? new TextEncoder().encode(value) : await value.arrayBuffer();
+
+  return window.crypto.subtle.encrypt(
+    /** @type {AesGcmParams} */ ({
+      name: 'AES-GCM',
+      iv,
+    }),
+    key,
+    data,
+  );
+}
+
 const withBackgroundEncryptedUpload = (Component) => ({ onChange, ...props }) => {
-  const { backgroundUploadURLs } = useContext(UploadContext);
+  const { backgroundUploadURLs, backgroundUploadEncryptKey } = useContext(UploadContext);
 
   /**
    * @param {Record<string, string|Blob|null|undefined>} nextValues Next values.
@@ -13,9 +36,15 @@ const withBackgroundEncryptedUpload = (Component) => ({ onChange, ...props }) =>
       nextValuesWithUpload[key] = value;
       const url = backgroundUploadURLs[key];
       if (url && value) {
-        nextValuesWithUpload[`${key}BackgroundUpload`] = window
-          .fetch(url, { method: 'POST', body: value })
-          .then(() => undefined);
+        const iv = window.crypto.getRandomValues(new Uint8Array(12));
+        nextValuesWithUpload[`${key}_image_iv`] = btoa(String.fromCharCode(...iv));
+        nextValuesWithUpload[`${key}_image_url`] = encrypt(
+          /** @type {CryptoKey} */ (backgroundUploadEncryptKey),
+          iv,
+          value,
+        )
+          .then((encryptedValue) => window.fetch(url, { method: 'POST', body: encryptedValue }))
+          .then(() => url);
       }
     }
 

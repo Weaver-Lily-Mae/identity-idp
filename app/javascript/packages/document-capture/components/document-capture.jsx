@@ -11,12 +11,41 @@ import ServiceProviderContext from '../context/service-provider';
 import Submission from './submission';
 import DesktopDocumentDisclosure from './desktop-document-disclosure';
 import useI18n from '../hooks/use-i18n';
+import { RetrySubmissionError } from './submission-complete';
 
 /** @typedef {import('react').ReactNode} ReactNode */
 /** @typedef {import('./form-steps').FormStep} FormStep */
 /** @typedef {import('../context/upload').UploadFieldError} UploadFieldError */
 
-function DocumentCapture() {
+/**
+ * Returns a new object with specified keys removed.
+ *
+ * @template {Record<string,any>} T
+ *
+ * @param {T} object Original object.
+ * @param {...string} keys Keys to remove.
+ *
+ * @return {Partial<T>} Object with keys removed.
+ */
+export const omit = (object, ...keys) =>
+  Object.entries(object).reduce((result, [key, value]) => {
+    if (!keys.includes(key)) {
+      result[key] = value;
+    }
+
+    return result;
+  }, {});
+
+/**
+ * @typedef DocumentCaptureProps
+ *
+ * @prop {boolean=} isAsyncPollingSubmission Whether submission should poll for async response.
+ */
+
+/**
+ * @param {DocumentCaptureProps} props
+ */
+function DocumentCapture({ isAsyncPollingSubmission = false }) {
   const [formValues, setFormValues] = useState(/** @type {Record<string,any>?} */ (null));
   const [submissionError, setSubmissionError] = useState(/** @type {Error?} */ (null));
   const { t } = useI18n();
@@ -30,6 +59,11 @@ function DocumentCapture() {
    */
   function submitForm(nextFormValues) {
     setSubmissionError(null);
+
+    if (isAsyncPollingSubmission) {
+      nextFormValues = omit(nextFormValues, 'front', 'back', 'selfie');
+    }
+
     setFormValues(nextFormValues);
   }
 
@@ -70,7 +104,7 @@ function DocumentCapture() {
         },
       ].filter(Boolean));
 
-  return formValues && !submissionError ? (
+  return formValues && (!submissionError || submissionError instanceof RetrySubmissionError) ? (
     <Submission
       payload={formValues}
       onError={(nextSubmissionError) => setSubmissionError(nextSubmissionError)}
