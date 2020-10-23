@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useMemo, useContext } from 'react';
 import { Alert } from '@18f/identity-components';
 import FormSteps from './form-steps';
 import { UploadFormEntriesError } from '../services/upload';
@@ -59,13 +59,16 @@ function DocumentCapture({ isAsyncPollingSubmission = false }) {
    */
   function submitForm(nextFormValues) {
     setSubmissionError(null);
-
-    if (isAsyncPollingSubmission) {
-      nextFormValues = omit(nextFormValues, 'front', 'back', 'selfie');
-    }
-
     setFormValues(nextFormValues);
   }
+
+  const submissionFormValues = useMemo(
+    () =>
+      formValues && isAsyncPollingSubmission
+        ? omit(formValues, 'front', 'back', 'selfie')
+        : formValues,
+    [isAsyncPollingSubmission, formValues],
+  );
 
   let initialActiveErrors;
   if (submissionError instanceof UploadFormEntriesError) {
@@ -104,9 +107,10 @@ function DocumentCapture({ isAsyncPollingSubmission = false }) {
         },
       ].filter(Boolean));
 
-  return formValues && (!submissionError || submissionError instanceof RetrySubmissionError) ? (
+  return submissionFormValues &&
+    (!submissionError || submissionError instanceof RetrySubmissionError) ? (
     <Submission
-      payload={formValues}
+      payload={submissionFormValues}
       onError={(nextSubmissionError) => setSubmissionError(nextSubmissionError)}
     />
   ) : (
