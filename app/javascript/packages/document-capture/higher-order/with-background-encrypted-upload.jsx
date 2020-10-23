@@ -10,7 +10,7 @@ import UploadContext from '../context/upload';
  *
  * @return {Promise<ArrayBuffer>} Encrypted data.
  */
-async function encrypt(key, iv, value) {
+export async function encrypt(key, iv, value) {
   const data =
     typeof value === 'string' ? new TextEncoder().encode(value) : await value.arrayBuffer();
 
@@ -37,7 +37,7 @@ const withBackgroundEncryptedUpload = (Component) => ({ onChange, ...props }) =>
       const url = backgroundUploadURLs[key];
       if (url && value) {
         const iv = window.crypto.getRandomValues(new Uint8Array(12));
-        nextValuesWithUpload[`${key}_image_iv`] = btoa(String.fromCharCode(...iv));
+        nextValuesWithUpload[`${key}_image_iv`] = window.btoa(String.fromCharCode(...iv));
         nextValuesWithUpload[`${key}_image_url`] = encrypt(
           /** @type {CryptoKey} */ (backgroundUploadEncryptKey),
           iv,
