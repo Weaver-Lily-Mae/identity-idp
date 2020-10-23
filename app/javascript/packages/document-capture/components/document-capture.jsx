@@ -13,6 +13,8 @@ import SubmissionStatus from './submission-status';
 import DesktopDocumentDisclosure from './desktop-document-disclosure';
 import useI18n from '../hooks/use-i18n';
 import { RetrySubmissionError } from './submission-complete';
+import SuspenseErrorBoundary from './suspense-error-boundary';
+import SubmissionInterstitial from './submission-interstitial';
 
 /** @typedef {import('react').ReactNode} ReactNode */
 /** @typedef {import('./form-steps').FormStep} FormStep */
@@ -108,24 +110,19 @@ function DocumentCapture({ isAsyncPollingSubmission = false }) {
         },
       ].filter(Boolean));
 
-  if (submissionError instanceof RetrySubmissionError) {
-    return (
-      <SubmissionStatus
-        onError={(nextSubmissionError) => setSubmissionError(nextSubmissionError)}
-      />
-    );
-  }
-
-  if (submissionFormValues && !submissionError) {
-    return (
-      <Submission
-        payload={submissionFormValues}
-        onError={(nextSubmissionError) => setSubmissionError(nextSubmissionError)}
-      />
-    );
-  }
-
-  return (
+  return submissionFormValues &&
+    (!submissionError || submissionError instanceof RetrySubmissionError) ? (
+    <SuspenseErrorBoundary
+      fallback={<SubmissionInterstitial autoFocus />}
+      errorFallback={({ error }) => setSubmissionError(error)}
+    >
+      {submissionError instanceof RetrySubmissionError ? (
+        <SubmissionStatus />
+      ) : (
+        <Submission payload={submissionFormValues} />
+      )}
+    </SuspenseErrorBoundary>
+  ) : (
     <>
       {submissionError && !(submissionError instanceof UploadFormEntriesError) && (
         <Alert type="error" className="margin-bottom-4 margin-top-2 tablet:margin-top-0">
