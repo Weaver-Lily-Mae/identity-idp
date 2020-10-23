@@ -55,7 +55,7 @@ const device = {
 
 loadPolyfills(['fetch', 'crypto']).then(async () => {
   const backgroundUploadURLs = getBackgroundUploadURLs();
-  const isAsyncPollingSubmission = Object.keys(backgroundUploadURLs).length > 0;
+  const isAsyncForm = Object.keys(backgroundUploadURLs).length > 0;
 
   const formData = {
     document_capture_session_uuid: appRoot.getAttribute('data-document-capture-session-uuid'),
@@ -63,7 +63,7 @@ loadPolyfills(['fetch', 'crypto']).then(async () => {
   };
 
   let backgroundUploadEncryptKey;
-  if (isAsyncPollingSubmission) {
+  if (isAsyncForm) {
     backgroundUploadEncryptKey = await window.crypto.subtle.generateKey(
       {
         name: 'AES-GCM',
@@ -86,7 +86,7 @@ loadPolyfills(['fetch', 'crypto']).then(async () => {
       <UploadContextProvider
         endpoint={appRoot.getAttribute('data-endpoint')}
         statusEndpoint={appRoot.getAttribute('data-status-endpoint')}
-        method={isAsyncPollingSubmission ? 'PUT' : 'POST'}
+        method={isAsyncForm ? 'PUT' : 'POST'}
         csrf={getMetaContent('csrf-token')}
         isMockClient={isMockClient}
         backgroundUploadURLs={backgroundUploadURLs}
@@ -97,7 +97,7 @@ loadPolyfills(['fetch', 'crypto']).then(async () => {
           <ServiceProviderContext.Provider value={getServiceProvider()}>
             <AssetContext.Provider value={assets}>
               <DeviceContext.Provider value={device}>
-                <DocumentCapture isAsyncPollingSubmission={isAsyncPollingSubmission} />
+                <DocumentCapture isAsyncForm={isAsyncForm} />
               </DeviceContext.Provider>
             </AssetContext.Provider>
           </ServiceProviderContext.Provider>

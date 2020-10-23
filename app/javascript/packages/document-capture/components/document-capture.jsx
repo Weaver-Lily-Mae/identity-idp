@@ -42,13 +42,13 @@ export const omit = (object, ...keys) =>
 /**
  * @typedef DocumentCaptureProps
  *
- * @prop {boolean=} isAsyncPollingSubmission Whether submission should poll for async response.
+ * @prop {boolean=} isAsyncForm Whether submission should poll for async response.
  */
 
 /**
  * @param {DocumentCaptureProps} props
  */
-function DocumentCapture({ isAsyncPollingSubmission = false }) {
+function DocumentCapture({ isAsyncForm = false }) {
   const [formValues, setFormValues] = useState(/** @type {Record<string,any>?} */ (null));
   const [submissionError, setSubmissionError] = useState(/** @type {Error?} */ (null));
   const { t } = useI18n();
@@ -66,11 +66,8 @@ function DocumentCapture({ isAsyncPollingSubmission = false }) {
   }
 
   const submissionFormValues = useMemo(
-    () =>
-      formValues && isAsyncPollingSubmission
-        ? omit(formValues, 'front', 'back', 'selfie')
-        : formValues,
-    [isAsyncPollingSubmission, formValues],
+    () => (formValues && isAsyncForm ? omit(formValues, 'front', 'back', 'selfie') : formValues),
+    [isAsyncForm, formValues],
   );
 
   let initialActiveErrors;
