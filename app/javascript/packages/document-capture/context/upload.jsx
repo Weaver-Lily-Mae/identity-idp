@@ -3,6 +3,7 @@ import defaultUpload from '../services/upload';
 
 const UploadContext = createContext({
   upload: defaultUpload,
+  getStatus: /** @type {() => Promise<UploadSuccessResponse>} */ (() => Promise.reject()),
   isMockClient: false,
   backgroundUploadURLs: /** @type {Record<string,string>} */ ({}),
   backgroundUploadEncryptKey: /** @type {CryptoKey=} */ (undefined),
@@ -58,6 +59,7 @@ const UploadContext = createContext({
  * key should be uploaded as soon as possible.
  * @prop {CryptoKey} backgroundUploadEncryptKey Background upload encryption key.
  * @prop {string} endpoint Endpoint to which payload should be sent.
+ * @prop {string=} statusEndpoint Endpoint from which to request async upload status.
  * @prop {'POST'|'PUT'} method HTTP method to send payload.
  * @prop {string} csrf CSRF token to send as parameter to upload implementation.
  * @prop {Record<string,any>} formData Extra form data to merge into the payload before uploading
@@ -73,6 +75,7 @@ function UploadContextProvider({
   backgroundUploadURLs = {},
   backgroundUploadEncryptKey,
   endpoint,
+  statusEndpoint,
   method,
   csrf,
   formData,
@@ -81,14 +84,20 @@ function UploadContextProvider({
   const uploadWithCSRF = (payload) =>
     upload({ ...payload, ...formData }, { endpoint, method, csrf });
 
+  const getStatus = () =>
+    statusEndpoint
+      ? upload(formData, { endpoint: statusEndpoint, method, csrf })
+      : Promise.reject();
+
   const value = useMemo(
     () => ({
       upload: uploadWithCSRF,
+      getStatus,
       backgroundUploadURLs,
       backgroundUploadEncryptKey,
       isMockClient,
     }),
-    [upload, backgroundUploadURLs, backgroundUploadEncryptKey, isMockClient],
+    [upload, getStatus, backgroundUploadURLs, backgroundUploadEncryptKey, isMockClient],
   );
 
   return <UploadContext.Provider value={value}>{children}</UploadContext.Provider>;

@@ -9,6 +9,7 @@ import MobileIntroStep from './mobile-intro-step';
 import DeviceContext from '../context/device';
 import ServiceProviderContext from '../context/service-provider';
 import Submission from './submission';
+import SubmissionStatus from './submission-status';
 import DesktopDocumentDisclosure from './desktop-document-disclosure';
 import useI18n from '../hooks/use-i18n';
 import { RetrySubmissionError } from './submission-complete';
@@ -107,13 +108,24 @@ function DocumentCapture({ isAsyncPollingSubmission = false }) {
         },
       ].filter(Boolean));
 
-  return submissionFormValues &&
-    (!submissionError || submissionError instanceof RetrySubmissionError) ? (
-    <Submission
-      payload={submissionFormValues}
-      onError={(nextSubmissionError) => setSubmissionError(nextSubmissionError)}
-    />
-  ) : (
+  if (submissionError instanceof RetrySubmissionError) {
+    return (
+      <SubmissionStatus
+        onError={(nextSubmissionError) => setSubmissionError(nextSubmissionError)}
+      />
+    );
+  }
+
+  if (submissionFormValues && !submissionError) {
+    return (
+      <Submission
+        payload={submissionFormValues}
+        onError={(nextSubmissionError) => setSubmissionError(nextSubmissionError)}
+      />
+    );
+  }
+
+  return (
     <>
       {submissionError && !(submissionError instanceof UploadFormEntriesError) && (
         <Alert type="error" className="margin-bottom-4 margin-top-2 tablet:margin-top-0">

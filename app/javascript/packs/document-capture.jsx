@@ -57,10 +57,6 @@ loadPolyfills(['fetch']).then(async () => {
   const backgroundUploadURLs = getBackgroundUploadURLs();
   const isAsyncPollingSubmission = Object.keys(backgroundUploadURLs).length > 0;
 
-  const endpoint = isAsyncPollingSubmission
-    ? window.location.href
-    : appRoot.getAttribute('data-endpoint');
-
   const formData = {
     document_capture_session_uuid: appRoot.getAttribute('data-document-capture-session-uuid'),
     locale: i18n.currentLocale(),
@@ -88,7 +84,8 @@ loadPolyfills(['fetch']).then(async () => {
       endpoint={getMetaContent('acuant-sdk-initialization-endpoint')}
     >
       <UploadContextProvider
-        endpoint={endpoint}
+        endpoint={appRoot.getAttribute('data-endpoint')}
+        statusEndpoint={appRoot.getAttribute('data-status-endpoint')}
         method={isAsyncPollingSubmission ? 'PUT' : 'POST'}
         csrf={getMetaContent('csrf-token')}
         isMockClient={isMockClient}
