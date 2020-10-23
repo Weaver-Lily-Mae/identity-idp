@@ -7,7 +7,9 @@ import {
   toFormEntryError,
 } from '@18f/identity-document-capture/services/upload';
 import { AcuantProvider, DeviceContext } from '@18f/identity-document-capture';
-import DocumentCapture from '@18f/identity-document-capture/components/document-capture';
+import DocumentCapture, {
+  except,
+} from '@18f/identity-document-capture/components/document-capture';
 import render from '../../../support/render';
 import { useAcuant } from '../../../support/acuant';
 
@@ -26,6 +28,16 @@ describe('document-capture/components/document-capture', () => {
 
   afterEach(() => {
     window.location.hash = originalHash;
+  });
+
+  describe('except', () => {
+    it('returns a new object without the specified keys', () => {
+      const original = { a: 1, b: 2, c: 3, d: 4 };
+      const result = except(original, 'b', 'd');
+
+      expect(result).to.not.equal(original);
+      expect(result).to.deep.equal({ a: 1, d: 4 });
+    });
   });
 
   it('renders the form steps', () => {
