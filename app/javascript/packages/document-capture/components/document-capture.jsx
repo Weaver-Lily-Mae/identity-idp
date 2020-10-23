@@ -30,7 +30,7 @@ import SubmissionInterstitial from './submission-interstitial';
  *
  * @return {Partial<T>} Object with keys removed.
  */
-export const omit = (object, ...keys) =>
+export const except = (object, ...keys) =>
   Object.entries(object).reduce((result, [key, value]) => {
     if (!keys.includes(key)) {
       result[key] = value;
@@ -66,7 +66,7 @@ function DocumentCapture({ isAsyncForm = false }) {
   }
 
   const submissionFormValues = useMemo(
-    () => (formValues && isAsyncForm ? omit(formValues, 'front', 'back', 'selfie') : formValues),
+    () => (formValues && isAsyncForm ? except(formValues, 'front', 'back', 'selfie') : formValues),
     [isAsyncForm, formValues],
   );
 
