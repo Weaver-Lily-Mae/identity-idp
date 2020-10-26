@@ -224,7 +224,7 @@ describe Idv::DocAuthController do
         pii_from_doc: {},
         success: false,
         errors: { front: 'Wrong document' },
-        messages: ['message']
+        messages: ['message'],
       }
     end
 
