@@ -111,7 +111,7 @@ function DocumentCapture({ isAsyncForm = false }) {
     (!submissionError || submissionError instanceof RetrySubmissionError) ? (
     <SuspenseErrorBoundary
       fallback={<SubmissionInterstitial autoFocus />}
-      errorFallback={({ error }) => setSubmissionError(error)}
+      onError={setSubmissionError}
     >
       {submissionError instanceof RetrySubmissionError ? (
         <SubmissionStatus />

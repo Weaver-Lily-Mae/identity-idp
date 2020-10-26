@@ -1,4 +1,4 @@
-import React, { Component, Suspense, createElement } from 'react';
+import React, { Component, Suspense } from 'react';
 
 /** @typedef {import('react').ReactNode} ReactNode */
 /** @typedef {import('react').FunctionComponent} FunctionComponent */
@@ -7,8 +7,7 @@ import React, { Component, Suspense, createElement } from 'react';
  * @typedef SuspenseErrorBoundaryProps
  *
  * @prop {NonNullable<ReactNode>|null} fallback Fallback to show while suspense pending.
- * @prop {NonNullable<ReactNode>|FunctionComponent|null} errorFallback Fallback to show if suspense
- * resolves as error.
+ * @prop {(error: Error)=>void} onError Error callback.
  * @prop {ReactNode} children Suspense child.
  */
 
@@ -19,26 +18,20 @@ class SuspenseErrorBoundary extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { hasError: false };
+    this.state = {};
   }
 
-  static getDerivedStateFromError(error) {
-    return {
-      hasError: true,
-      error,
-    };
+  static getDerivedStateFromError() {
+    return {};
+  }
+
+  componentDidCatch(error) {
+    const { onError } = this.props;
+    onError(error);
   }
 
   render() {
-    const { fallback, errorFallback, children } = this.props;
-    const { hasError, error } = this.state;
-
-    if (hasError) {
-      const isErrorFallbackComponent = typeof errorFallback === 'function';
-      return isErrorFallbackComponent
-        ? createElement(/** @type {FunctionComponent} */ (errorFallback), { error })
-        : errorFallback;
-    }
+    const { fallback, children } = this.props;
 
     return <Suspense fallback={fallback}>{children}</Suspense>;
   }
