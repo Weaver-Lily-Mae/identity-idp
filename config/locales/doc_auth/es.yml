@@ -8,9 +8,9 @@ es:
       start_over: Comenzar de nuevo
       take_or_upload_picture: "<lg-take-photo>Toma una foto</lg-take-photo> o <lg-upload>Sube
         una foto</lg-upload>"
-      take_picture: Tomar la foto
-      take_picture_retry: Retomar foto
-      upload_picture: Sube una foto
+      take_picture: Tomar una foto
+      take_picture_retry: Retirar la foto
+      upload_picture: Subir foto
       use_phone: Usa tu telefono
     errors:
       lexis_nexis:
@@ -79,20 +79,20 @@ es:
       zip_code: Código postal
     headings:
       address: Dirección de envio
-      back: Parte posterior
+      back: Parte Trasera
       capture_complete: Hemos verificado su identificación emitida por el estado
-      document_capture: Agregue su identificación emitida por el estado
-      document_capture_back: Detrás de su identificación
-      document_capture_front: Frente de su identificación
+      document_capture: Añada su documento de identidad expedido por el estado
+      document_capture_back: Parte trasera de su documento de identidad
+      document_capture_front: Parte delantera de su documento de identidad
       document_capture_heading_html: Cargue su identificación emitida por el estado
       document_capture_heading_with_selfie_html: Cargue su identificación emitida
         por el estado y una foto suya
-      document_capture_selfie: Tu foto
-      front: Frente
+      document_capture_selfie: Su foto
+      front: Parte Delantera
       interstitial: Estamos procesando tus imágenes
       photo: Foto
       review_issues: Revisa tus imágenes y vuelve a intentarlo
-      selfie: Toma una foto de ti mismo
+      selfie: Tómese una foto
       ssn: Por favor ingrese su número de seguro social.
       take_pic_back: Toma una foto de la parte posterior de tu identificación
       take_pic_front: Toma una foto del frente de tu identificación
@@ -156,7 +156,7 @@ es:
         a servicios que manejan información confidencial.
     instructions:
       bullet1: Sube tu ID
-      bullet1a: Toma una foto de ti mismo
+      bullet1a: Tómese una foto
       bullet2: Confirma tu direccion
       bullet3: Asegure su cuenta
       bullet4: Recuperación de cuenta
@@ -165,14 +165,10 @@ es:
         su identidad.
       document_capture_fallback_html: "¿Teniendo problemas? %{link}"
       document_capture_fallback_link: Haga clic aquí para cargar una imagen.
-      document_capture_selfie_consent_banner: Permita que login.gov use la cámara
-        de su dispositivo
-      document_capture_selfie_consent_blocked: Verifique la configuración de su navegador
-        web para este sitio para permitir que login.gov acceda a la cámara.
-      document_capture_selfie_consent_reason: login.gov necesita permiso para usar
-        su cámara para que pueda probar que su identificación le pertenece.
-      document_capture_selfie_instructions: Ahora toma una foto de ti mismo. Lo compararemos
-        con la imagen en el frente de su identificación.
+      document_capture_selfie_consent_banner: login.gov necesita permiso para usar la cámara de su dispositivo
+      document_capture_selfie_consent_blocked: Compruebe la configuración de su navegador de Internet para este sitio o la configuración del sistema de la computadora para permitir a login.gov acceder a la cámara.
+      document_capture_selfie_consent_reason: Permita el acceso a la cámara y busque una notificación en su navegador o revise la configuración del sistema para confirmar el acceso a la cámara.
+      document_capture_selfie_instructions: Ahora tómese una foto. La compararemos con la imagen de la parte delantera de su documento de identidad.
       email_sent: Enlace enviado a %{email}. Compruebe el correo electrónico de su
         escritorio y siga las instrucciones para verificar su identidad.
       learn_more: Aprende más
@@ -180,10 +176,10 @@ es:
         Siga ese enlace a su navegador para tomar fotografías de la parte delantera
         y trasera de su identificación.
       switch_back: Vuelve a tu computadora para terminar de verificar tu identidad
-      take_pic: 'Para mejores resultados:'
-      take_pic1: Usa un fondo oscuro
-      take_pic2: Toma la foto sobre una superficie plana
-      take_pic3: No uses el flash en tu cámara
+      take_pic: 'Para obtener los mejores resultados:'
+      take_pic1: Use un fondo oscuro
+      take_pic2: Tome la foto en una superficie plana
+      take_pic3: No use el flash de su cámara
       take_pic4: Usa la orientación del paisaje
       text1: junto con su número de seguro social
       text1a: con tu teléfono o webcam
@@ -192,16 +188,15 @@ es:
       text4: asegúrate de tener siempre acceso
       welcome: 'Lo que necesitarás hacer:'
     tips:
-      document_capture_header_text: 'Para mejores resultados:'
-      document_capture_hint: Aceptamos los formatos BMP, PNG, TIFF y JPG.
-      document_capture_id_text1: Usa un fondo oscuro
-      document_capture_id_text2: Toma la foto sobre una superficie plana
-      document_capture_id_text3: No uses el flash en tu cámara
+      document_capture_header_text: 'Para obtener los mejores resultados:'
+      document_capture_hint: Debe ser un JPG, BMP, PNG o TIFF
+      document_capture_id_text1: Use un fondo oscuro
+      document_capture_id_text2: Tome la foto en una superficie plana
+      document_capture_id_text3: No use el flash de su cámara
       document_capture_id_text4: El tamaño del archivo debe ser de al menos 2 MB
-      document_capture_selfie_text1: Mira a la cámara y asegúrate de que toda tu cabeza
-        esté en la foto
-      document_capture_selfie_text2: Toma una foto sobre un fondo liso
-      document_capture_selfie_text3: No use sombrero ni anteojos
+      document_capture_selfie_text1: Mire a la cámara y asegúrese de que tiene toda la cabeza en la foto
+      document_capture_selfie_text2: Tome una foto contra un fondo plano
+      document_capture_selfie_text3: No use sombrero o anteojos
       header_text: Pautas para tomar una foto de su identificación
       review_issues_id_header_text: 'Revise las imágenes de su identificación emitida
         por el estado:'

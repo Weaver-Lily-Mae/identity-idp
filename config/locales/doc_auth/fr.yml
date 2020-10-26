@@ -68,7 +68,7 @@ fr:
       address1: Adresse
       change_file: Changer de fichier
       choose_file_html: Faites glisser le fichier ici ou <lg-underline>choisissez
-        dans un dossier</lg-underline>
+        un dossier</lg-underline>
       city: Ville
       dob: Date de naissance
       doc_success: Nous avons vérifié votre numéro de sécurité sociale et votre identifiant
@@ -83,19 +83,19 @@ fr:
       address: Adresse mail
       back: Verso
       capture_complete: Nous avons vérifié votre pièce d'identité officielle
-      document_capture: Ajoutez votre pièce d'identité émise par l'État
-      document_capture_back: Dos de votre pièce d'identité
-      document_capture_front: Recto de votre pièce d'identité
+      document_capture: Ajoutez votre carte d'identité délivrée par l'État
+      document_capture_back: Verso de votre carte d'identité
+      document_capture_front: Recto de votre carte d'identité
       document_capture_heading_html: Téléchargez votre pièce d'identité délivrée par
         l'État
       document_capture_heading_with_selfie_html: Téléchargez votre pièce d'identité
         officielle et une photo de vous
-      document_capture_selfie: Ta photo
-      front: De face
+      document_capture_selfie: Votre photo
+      front: Recto
       interstitial: Nous traitons vos images
       photo: Photo
       review_issues: Vérifiez vos images et réessayez
-      selfie: Prenez une photo de vous
+      selfie: Prenez une photo de vous-même
       ssn: S'il vous plaît entrez votre numéro de sécurité sociale.
       take_pic_back: Prenez une photo au verso de votre identifiant
       take_pic_front: Prenez une photo du recto de votre identifiant
@@ -166,7 +166,7 @@ fr:
         permet d'accéder à des services traitant des informations sensibles.
     instructions:
       bullet1: Téléchargez votre identifiant
-      bullet1a: Prenez une photo de vous
+      bullet1a: Prenez une photo de vous-même
       bullet2: Confirmez votre adresse
       bullet3: Sécurise ton compte
       bullet4: Récupération du compte
@@ -175,15 +175,10 @@ fr:
         que pour vérifier votre identité.
       document_capture_fallback_html: Avoir des problèmes? %{link}
       document_capture_fallback_link: Cliquez ici pour télécharger une image
-      document_capture_selfie_consent_banner: Autorisez login.gov à utiliser la caméra
-        de votre appareil
-      document_capture_selfie_consent_blocked: Vérifiez les paramètres de votre navigateur
-        Web pour ce site pour autoriser login.gov à accéder à la caméra.
-      document_capture_selfie_consent_reason: login.gov a besoin d'une autorisation
-        pour utiliser votre caméra afin que vous puissiez prouver que votre identifiant
-        vous appartient.
-      document_capture_selfie_instructions: Maintenant, prenez une photo de vous.
-        Nous le comparerons à l'image au recto de votre pièce d'identité.
+      document_capture_selfie_consent_banner: login.gov a besoin d'une autorisation pour utiliser la caméra de votre appareil
+      document_capture_selfie_consent_blocked: Vérifiez les paramètres de votre navigateur Web pour ce site ou les paramètres système de votre ordinateur pour permettre à login.gov d'accéder à la caméra.
+      document_capture_selfie_consent_reason: Autorisez l'accès à la caméra et recherchez une notification dans votre navigateur ou vérifiez les paramètres de votre système pour confirmer l'accès à la caméra.
+      document_capture_selfie_instructions: Maintenant, prenez une photo de vous-même. Nous la comparerons à l'image qui figure au recto de votre carte d'identité.
       email_sent: Lien envoyé à %{email}. Veuillez vérifier votre email de bureau
         et suivez les instructions pour vérifier votre identité.
       learn_more: Apprendre encore plus
@@ -192,10 +187,10 @@ fr:
         de votre identifiant.
       switch_back: Revenez sur votre ordinateur pour terminer la vérification de votre
         identité
-      take_pic: 'Pour les meilleurs résultats:'
+      take_pic: 'Pour obtenir les meilleurs résultats:'
       take_pic1: Utilisez un fond sombre
       take_pic2: Prenez la photo sur une surface plane
-      take_pic3: Ne pas utiliser le flash sur votre appareil photo
+      take_pic3: N'utilisez pas le flash de votre appareil photo
       take_pic4: Utilisez l'orientation paysage
       text1: avec votre numéro de sécurité sociale
       text1a: avec votre téléphone ou webcam
@@ -204,16 +199,15 @@ fr:
       text4: assurez-vous d'avoir toujours accès
       welcome: 'Ce que vous devez faire:'
     tips:
-      document_capture_header_text: 'Pour les meilleurs résultats:'
-      document_capture_hint: Nous acceptons les formats BMP, PNG, TIFF et JPG.
+      document_capture_header_text: 'Pour obtenir les meilleurs résultats:'
+      document_capture_hint: Doit être un JPG, BMP, PNG ou TIFF
       document_capture_id_text1: Utilisez un fond sombre
       document_capture_id_text2: Prenez la photo sur une surface plane
-      document_capture_id_text3: Ne pas utiliser le flash sur votre appareil photo
+      document_capture_id_text3: N'utilisez pas le flash de votre appareil photo
       document_capture_id_text4: La taille du fichier doit être d'au moins 2 Mo
-      document_capture_selfie_text1: Faites face à la caméra et assurez-vous que toute
-        votre tête est sur la photo
-      document_capture_selfie_text2: Prenez une photo sur un fond uni
-      document_capture_selfie_text3: Ne portez pas de chapeau ni de lunettes
+      document_capture_selfie_text1: Faites face à l'appareil photo et assurez-vous que toute votre tête est visible sur la photo
+      document_capture_selfie_text2: Prenez une photo avec un arrière-plan uni
+      document_capture_selfie_text3: Ne pas porter de chapeau ou de lunettes
       header_text: Directives pour prendre une photo de votre identité
       review_issues_id_header_text: 'Examinez les images de votre pièce d''identité
         délivrée par l''État:'
