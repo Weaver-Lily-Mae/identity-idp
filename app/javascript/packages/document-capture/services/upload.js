@@ -82,6 +82,8 @@ async function upload(payload, { method = 'POST', endpoint, csrf }) {
     throw error;
   }
 
+  result.isPending = response.status === 202;
+
   return /** @type {UploadSuccessResponse} */ (result);
 }
 

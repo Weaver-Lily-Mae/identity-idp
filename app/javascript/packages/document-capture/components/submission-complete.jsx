@@ -35,7 +35,7 @@ function SubmissionComplete({ resource }) {
   const response = resource.read();
 
   useEffect(() => {
-    if (response.status === 'in_progress') {
+    if (response.isPending) {
       sleepTimeout.current = window.setTimeout(() => {
         setRetryError(() => {
           throw new RetrySubmissionError();

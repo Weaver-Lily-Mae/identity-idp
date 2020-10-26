@@ -32,7 +32,7 @@ const UploadContext = createContext({
  * @typedef UploadSuccessResponse
  *
  * @prop {true} success Whether request was successful.
- * @prop {'in_progress'|'success'|'fail'|null} status Async upload success status.
+ * @prop {boolean} isPending Whether verification result is still pending.
  */
 
 /**
