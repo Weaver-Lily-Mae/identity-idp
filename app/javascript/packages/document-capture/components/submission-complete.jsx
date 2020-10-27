@@ -47,7 +47,7 @@ function SubmissionComplete({ resource }) {
       form?.submit();
     }
 
-    return () => clearTimeout(sleepTimeout.current);
+    return () => window.clearTimeout(sleepTimeout.current);
   }, []);
 
   return <SubmissionInterstitial />;
