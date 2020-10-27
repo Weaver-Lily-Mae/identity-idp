@@ -40,7 +40,7 @@ describe('withBackgroundEncryptedUpload', () => {
     return null;
   });
 
-  describe.only('encrypt', () => {
+  describe('encrypt', () => {
     it('resolves to AES-GCM encrypted data from string value', async () => {
       const key = await window.crypto.subtle.importKey(
         'raw',
