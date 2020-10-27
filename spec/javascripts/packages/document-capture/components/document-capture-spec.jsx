@@ -33,7 +33,7 @@ describe('document-capture/components/document-capture', () => {
   describe('except', () => {
     it('returns a new object without the specified keys', () => {
       const original = { a: 1, b: 2, c: 3, d: 4 };
-      const result = except(original, 'b', 'd');
+      const result = except(original, 'b', 'c');
 
       expect(result).to.not.equal(original);
       expect(result).to.deep.equal({ a: 1, d: 4 });
