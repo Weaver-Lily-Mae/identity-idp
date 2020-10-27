@@ -88,27 +88,36 @@ describe('withBackgroundEncryptedUpload', () => {
 
   it('intercepts onChange to include background uploads', async () => {
     const onChange = sinon.spy();
+    const key = await window.crypto.subtle.generateKey(
+      {
+        name: 'AES-GCM',
+        length: 256,
+      },
+      true,
+      ['encrypt', 'decrypt'],
+    );
     sandbox.stub(window, 'fetch').callsFake(() => Promise.resolve({}));
     render(
-      <UploadContextProvider backgroundUploadURLs={{ foo: 'about:blank' }}>
+      <UploadContextProvider
+        backgroundUploadURLs={{ foo: 'about:blank' }}
+        backgroundUploadEncryptKey={key}
+      >
         <Component onChange={onChange} />)
       </UploadContextProvider>,
     );
 
     expect(onChange.calledOnce).to.be.true();
     const patch = onChange.getCall(0).args[0];
-    expect(patch).to.have.keys(['foo', 'baz', 'fooBackgroundUpload']);
+    expect(patch).to.have.keys(['foo', 'baz', 'foo_image_iv', 'foo_image_url']);
     expect(patch.foo).to.equal('bar');
     expect(patch.baz).to.equal('quux');
-    expect(patch.fooBackgroundUpload).to.be.an.instanceOf(Promise);
-    expect(window.fetch.calledOnce).to.be.true();
-    expect(window.fetch.getCall(0).args).to.deep.equal([
-      'about:blank',
-      {
-        method: 'POST',
-        body: 'bar',
-      },
-    ]);
-    expect(await patch.fooBackgroundUpload).to.be.undefined();
+    expect(patch.foo_image_url).to.be.an.instanceOf(Promise);
+    expect(await patch.foo_image_url).to.equal('about:blank');
+    const [url, params] = window.fetch.getCall(0).args;
+    expect(url).to.equal('about:blank');
+    expect(params.method).to.equal('POST');
+    expect(params.body).to.be.instanceOf(ArrayBuffer);
+    const bodyAsString = String.fromCharCode.apply(null, new Uint8Array(params.body));
+    expect(bodyAsString).to.not.equal('bar');
   });
 });
