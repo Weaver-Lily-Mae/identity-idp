@@ -8,6 +8,8 @@ import React, { Component, Suspense } from 'react';
  *
  * @prop {NonNullable<ReactNode>|null} fallback Fallback to show while suspense pending.
  * @prop {(error: Error)=>void} onError Error callback.
+ * @prop {Error=} handledError Error instance caught to allow for acknowledgment of rerender, in
+ * order to prevent infinite rerendering.
  * @prop {ReactNode} children Suspense child.
  */
 
@@ -18,11 +20,14 @@ class SuspenseErrorBoundary extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = { hasError: false };
   }
 
-  static getDerivedStateFromError() {
-    return {};
+  static getDerivedStateFromError(error) {
+    return {
+      hasError: true,
+      error,
+    };
   }
 
   componentDidCatch(error) {
@@ -31,7 +36,12 @@ class SuspenseErrorBoundary extends Component {
   }
 
   render() {
-    const { fallback, children } = this.props;
+    const { fallback, children, handledError } = this.props;
+    const { hasError, error } = this.state;
+
+    if (hasError && error !== handledError) {
+      return null;
+    }
 
     return <Suspense fallback={fallback}>{children}</Suspense>;
   }

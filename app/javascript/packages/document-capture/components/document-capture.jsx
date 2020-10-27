@@ -50,7 +50,7 @@ export const except = (object, ...keys) =>
  */
 function DocumentCapture({ isAsyncForm = false }) {
   const [formValues, setFormValues] = useState(/** @type {Record<string,any>?} */ (null));
-  const [submissionError, setSubmissionError] = useState(/** @type {Error?} */ (null));
+  const [submissionError, setSubmissionError] = useState(/** @type {Error=} */ (undefined));
   const { t } = useI18n();
   const { isMobile } = useContext(DeviceContext);
   const serviceProvider = useContext(ServiceProviderContext);
@@ -61,7 +61,7 @@ function DocumentCapture({ isAsyncForm = false }) {
    * @param {Record<string,any>} nextFormValues Submitted form values.
    */
   function submitForm(nextFormValues) {
-    setSubmissionError(null);
+    setSubmissionError(undefined);
     setFormValues(nextFormValues);
   }
 
@@ -112,6 +112,7 @@ function DocumentCapture({ isAsyncForm = false }) {
     <SuspenseErrorBoundary
       fallback={<SubmissionInterstitial autoFocus />}
       onError={setSubmissionError}
+      handledError={submissionError}
     >
       {submissionError instanceof RetrySubmissionError ? (
         <SubmissionStatus />
