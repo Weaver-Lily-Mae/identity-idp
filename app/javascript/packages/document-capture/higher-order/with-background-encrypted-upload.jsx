@@ -2,6 +2,24 @@ import React, { useContext } from 'react';
 import UploadContext from '../context/upload';
 
 /**
+ * Returns a promise resolving to an ArrayBuffer representation of the given Blob object.
+ *
+ * @param {Blob} blob Blob object.
+ *
+ * @return {Promise<DataView>}
+ */
+export function blobToDataView(blob) {
+  return new Promise((resolve, reject) => {
+    const reader = new window.FileReader();
+    reader.onload = ({ target }) => {
+      resolve(new DataView(/** @type {ArrayBuffer} */ (target?.result)));
+    };
+    reader.onerror = () => reject();
+    reader.readAsArrayBuffer(blob);
+  });
+}
+
+/**
  * Encrypt data.
  *
  * @param {CryptoKey} key Encryption key.
@@ -12,7 +30,7 @@ import UploadContext from '../context/upload';
  */
 export async function encrypt(key, iv, value) {
   const data =
-    typeof value === 'string' ? new TextEncoder().encode(value) : await value.arrayBuffer();
+    typeof value === 'string' ? new TextEncoder().encode(value) : await blobToDataView(value);
 
   return window.crypto.subtle.encrypt(
     /** @type {AesGcmParams} */ ({

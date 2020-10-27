@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import sinon from 'sinon';
 import { UploadContextProvider } from '@18f/identity-document-capture';
 import withBackgroundEncryptedUpload, {
+  blobToDataView,
   encrypt,
 } from '@18f/identity-document-capture/higher-order/with-background-encrypted-upload';
 import { useSandbox } from '../../../support/sinon';
@@ -29,6 +30,16 @@ function isArrayBufferEqual(a, b) {
   return true;
 }
 
+describe('blobToDataView', () => {
+  it('converts blob to data view', async () => {
+    const data = new window.File(['Hello world'], 'demo.text', { type: 'text/plain' });
+    const expected = new Uint8Array([72, 101, 108, 108, 111, 32, 119, 111, 114, 108, 100]).buffer;
+
+    const dataView = await blobToDataView(data);
+    expect(isArrayBufferEqual(dataView.buffer, expected)).to.be.true();
+  });
+});
+
 describe('withBackgroundEncryptedUpload', () => {
   const sandbox = useSandbox();
 
@@ -51,6 +62,50 @@ describe('withBackgroundEncryptedUpload', () => {
       );
       const iv = new Uint8Array(12);
       const data = 'Hello world';
+      const expected = new Uint8Array([
+        134,
+        194,
+        44,
+        81,
+        34,
+        64,
+        28,
+        1,
+        117,
+        34,
+        161,
+        11,
+        192,
+        7,
+        169,
+        19,
+        140,
+        29,
+        89,
+        104,
+        50,
+        208,
+        250,
+        152,
+        208,
+        214,
+        65,
+      ]).buffer;
+
+      const encrypted = await encrypt(key, iv, data);
+      expect(isArrayBufferEqual(encrypted, expected)).to.be.true();
+    });
+
+    it('resolves to AES-GCM encrypted data from blob', async () => {
+      const key = await window.crypto.subtle.importKey(
+        'raw',
+        new Uint8Array(32).buffer,
+        'AES-GCM',
+        false,
+        ['encrypt', 'decrypt'],
+      );
+      const iv = new Uint8Array(12);
+      const data = new window.File(['Hello world'], 'demo.text', { type: 'text/plain' });
       const expected = new Uint8Array([
         134,
         194,
