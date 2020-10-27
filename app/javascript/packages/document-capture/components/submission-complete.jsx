@@ -24,7 +24,7 @@ export class RetrySubmissionError extends Error {}
  *
  * @type {number}
  */
-const RETRY_INTERVAL = 2500;
+const RETRY_INTERVAL = process.env.NODE_ENV === 'test' ? 0 : 2500;
 
 /**
  * @param {SubmissionCompleteProps} props Props object.
